@@ -1,0 +1,4 @@
+请基于这个给定的csv文件
+/Users/xuchenfei/Documents/咨询/百度云同步盘/#网盘同步资料/聚科联诚Service Offering/DevFolder/pythonjiraapi/data/iteration_completion.csv
+根据以下类的方式，产生一个新的iterationcompletion的python文件，我需要从JQL_QUERY中获取到每个"交付团队"所对应的计划和已经完成的数量。计划数量就是交付团队在opensprint中的所有任务数总和，完成数量就是resolved为true的所有数量。
+/Users/xuchenfei/Documents/咨询/百度云同步盘/#网盘同步资料/聚科联诚Service Offering/DevFolder/pythonjiraapi/jiraapi/AccessJIRAforSprintReportExport.py
