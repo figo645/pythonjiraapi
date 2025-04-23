@@ -67,11 +67,16 @@ class TestingProgress:
         
         # 按团队分组并计算统计数据
         stats = df.groupby('team').agg({
-            'status': ['count', lambda x: sum(x == 'DONE')]
+            'status': [
+                'count',  # 总数
+                lambda x: sum(x == 'DONE'),  # 完成数
+                lambda x: sum(x == 'Failed'),  # 失败数
+                lambda x: sum(x == 'Blocked')  # 阻塞数
+            ]
         }).reset_index()
         
         # 重命名列
-        stats.columns = ['交付团队', '测试计划总数', '已完成的测试计划数']
+        stats.columns = ['teamName', 'totalTestCases', 'completedTestCases', 'failedTestCases', 'blockedTestCases']
         
         return stats
 
