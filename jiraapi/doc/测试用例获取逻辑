@@ -1,0 +1,14 @@
+JIRA插件testRay
+API可能是：
+GET /o/tms/test-plans/{testPlanId}/cases
+例如：GET https://your-testray-instance.com/o/tms/test-plans/12345/cases
+Authorization: Bearer <你的访问Token>
+
+测试计划包含测试用例
+
+测试用例的执行情况统计
+1. 获取测试计划
+2. 获取测试计划中的测试用例
+3. 获取测试用例的执行情况
+4. 统计测试用例的执行情况
+
