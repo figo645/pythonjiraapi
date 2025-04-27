@@ -5,13 +5,14 @@ import urllib.parse
 import pandas as pd
 from datetime import datetime
 import os
+from .BaseJira import BaseJira
 
 
-class SprintPlanning:
+class SprintPlanning(BaseJira):
     def __init__(self):
+        super().__init__()
         # Jira API 相关信息
         self.JIRA_URL = "https://jira.digitalvolvo.com"
-        self.API_TOKEN = "MDQ3NDAxMzQ2ODY0OiksiKm1bWeZ1sAfWgqRfQ2WrgPV"
 
         # 根据需求设置的JQL查询
         self.JQL_QUERY = "issuetype in (BA工作任务,任务, 技术需求Enabler, 故事, 测试QA工作任务, 运维任务) AND Sprint in openSprints()"
@@ -20,7 +21,6 @@ class SprintPlanning:
         self.headers = {
             "Accept": "application/json",
             "Content-Type": "application/json",
-            "Authorization": f"Bearer {self.API_TOKEN}"
         }
 
         # 设置基础路径

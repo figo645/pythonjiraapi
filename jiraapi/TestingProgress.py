@@ -2,20 +2,23 @@ import requests
 import urllib.parse
 import pandas as pd
 import os
+from datetime import datetime
+from .BaseJira import BaseJira
 
-class TestingProgress:
+class TestingProgress(BaseJira):
     def __init__(self):
+        super().__init__()
         self.JIRA_URL = "https://jira.digitalvolvo.com"
-        self.API_TOKEN = "MDQ3NDAxMzQ2ODY0OiksiKm1bWeZ1sAfWgqRfQ2WrgPV"
         self.headers = {
             "Accept": "application/json",
             "Content-Type": "application/json",
-            "Authorization": f"Bearer {self.API_TOKEN}"
         }
         # 修改为获取测试计划的JQL
         self.JQL_QUERY = 'issuetype = "测试计划" AND Sprint in openSprints()'
         # 设置输出目录为上一层的data
         self.OUTPUT_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data')
+        # 设置测试计划key
+        self.TEST_PLAN_KEY = "CVTC-172997"
 
     def get_jira_data(self):
         """获取JIRA数据"""
