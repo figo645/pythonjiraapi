@@ -68,7 +68,7 @@ class ChangeTracking:
             team_name = team_field.get('child', {}).get('value') if team_field and 'child' in team_field else "Unassigned Team"
             
             # 获取故事点
-            story_points = fields.get('customfield_10002', 0) or 0
+            story_points = fields.get('customfield_10106', 0) or 0
             
             # 检查标签中是否包含"变更"
             labels = fields.get('labels', [])
@@ -133,6 +133,88 @@ class ChangeTracking:
             
         except Exception as e:
             print(f"Error: 保存CSV文件失败: {str(e)}")
+
+    def export_to_csv(self, results):
+        """Export analysis results to CSV file"""
+        try:
+            # Ensure output directory exists
+            os.makedirs(os.path.dirname(self.OUTPUT_FILE), exist_ok=True)
+
+            # Create DataFrame and export to CSV
+            df = pd.DataFrame(results)
+            output_file = self.OUTPUT_FILE
+            df.to_csv(output_file, index=False, encoding='utf-8-sig')
+            print(f"\n✅ Successfully exported analysis results to: {output_file}")
+
+            # Print statistics in the requested format
+            print("\nChange Tracking Statistics:")
+            print("teamName,totalStories,completedStories,storyPoints,completedStoryPoints")
+            for result in results:
+                print(f"{result['teamName']},{result['totalStories']},{result['completedStories']},"
+                      f"{result['storyPoints']},{result['completedStoryPoints']}")
+
+        except Exception as e:
+            print(f"❌ Error exporting analysis results: {str(e)}")
+
+    def analyze_changes(self):
+        """Analyze changes across all teams"""
+        try:
+            # Get all issues
+            issues = self.get_jira_issues()
+            if not issues:
+                print("No issues found")
+                return []
+            
+            # Initialize team statistics
+            team_stats = {}
+            
+            for issue in issues:
+                try:
+                    # Get delivery team name from custom field
+                    team_field = issue['fields'].get('customfield_11101', {})
+                    team_name = team_field.get('child', {}).get('value', 'Unassigned Team')
+                    
+                    # Initialize team statistics if not exists
+                    if team_name not in team_stats:
+                        team_stats[team_name] = {
+                            'total_stories': 0,
+                            'completed_stories': 0,
+                            'story_points': 0,
+                            'completed_story_points': 0
+                        }
+                    
+                    # Update statistics
+                    team_stats[team_name]['total_stories'] += 1
+                    
+                    # Get story points
+                    story_points = issue['fields'].get('customfield_10106', 0)
+                    team_stats[team_name]['story_points'] += story_points
+                    
+                    # Check if story is completed
+                    status = issue['fields']['status']['name']
+                    if status in ['Done', '完成']:
+                        team_stats[team_name]['completed_stories'] += 1
+                        team_stats[team_name]['completed_story_points'] += story_points
+                        
+                except Exception as e:
+                    print(f"Error processing issue {issue.get('key', 'Unknown')}: {str(e)}")
+                    continue
+            
+            # Convert team statistics to the required format
+            results = []
+            for team_name, stats in team_stats.items():
+                results.append({
+                    'teamName': team_name,
+                    'totalStories': stats['total_stories'],
+                    'completedStories': stats['completed_stories'],
+                    'storyPoints': stats['story_points'],
+                    'completedStoryPoints': stats['completed_story_points']
+                })
+            
+            return results
+        except Exception as e:
+            print(f"Error analyzing changes: {str(e)}")
+            return []
 
 def main():
     """主函数"""
