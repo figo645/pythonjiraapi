@@ -93,6 +93,30 @@ class DatabaseManager:
             df = df.rename(columns=mapping)
         return df
 
+    def clear_table(self, table_name):
+        """Clear all contents from specified table"""
+        conn = self.get_connection()
+        if not conn:
+            return False
+
+        try:
+            with conn.cursor() as cur:
+                # Create SQL query to delete all rows
+                query = sql.SQL("DELETE FROM {}").format(
+                    sql.Identifier(table_name)
+                )
+                cur.execute(query)
+                conn.commit()
+                print(f"✅ Successfully cleared table {table_name}")
+                return True
+
+        except Exception as e:
+            print(f"Error clearing table {table_name}: {str(e)}")
+            conn.rollback()
+            return False
+        finally:
+            conn.close()
+
     def insert_data(self, table_name, df):
         """Insert data into specified table"""
         conn = self.get_connection()
@@ -101,6 +125,9 @@ class DatabaseManager:
 
         try:
             with conn.cursor() as cur:
+                # Clear existing data first
+                self.clear_table(table_name)
+                
                 # Map column names
                 df = self.map_columns(df, table_name)
                 
@@ -108,6 +135,10 @@ class DatabaseManager:
                 df['data_date'] = self.date_date
                 df['data_month'] = self.date_month
                 df['data_quarter'] = self.date_quarter
+
+                # For testing_progress table, remove total_testplan if it exists
+                if table_name == 'testing_progress' and 'total_testplan' in df.columns:
+                    df = df.drop(columns=['total_testplan'])
 
                 # Prepare columns and values for insertion
                 columns = df.columns.tolist()
