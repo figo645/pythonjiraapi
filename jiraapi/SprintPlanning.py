@@ -5,6 +5,7 @@ import urllib.parse
 import pandas as pd
 from datetime import datetime
 import os
+import numpy as np
 
 
 class SprintPlanning:
@@ -93,7 +94,8 @@ class SprintPlanning:
                     "enablerPoints": 0,
                     "totalPoints": 0,
                     "userStoryCount": 0,  # 新增：用户故事数量
-                    "totalUserStoryPoints": 0  # 新增：用户故事总点数
+                    "totalUserStoryPoints": 0,  # 新增：用户故事总点数
+                    "storyPointsList": []  # 新增：存储所有故事的故事点数
                 }
 
             # 更新计划数量和计划story points
@@ -107,6 +109,7 @@ class SprintPlanning:
                 team_stats[team_name]["userStoryPoints"] += user_story_points
                 team_stats[team_name]["userStoryCount"] += 1  # 增加用户故事计数
                 team_stats[team_name]["totalUserStoryPoints"] += user_story_points  # 累加用户故事点数
+                team_stats[team_name]["storyPointsList"].append(user_story_points)  # 新增：记录故事点数
             elif issue_type == "技术需求Enabler":
                 team_stats[team_name]["enablerPoints"] += story_points
 
@@ -141,6 +144,17 @@ class SprintPlanning:
             # 计算需求吞吐量
             story_throughput = (stats["userStoryCount"] / stats["totalUserStoryPoints"] * 100) if stats["totalUserStoryPoints"] > 0 else 0
             
+            # 计算CV值（变异系数）
+            story_points_list = stats["storyPointsList"]
+            cv_value = 0
+            if len(story_points_list) > 0:
+                mean = np.mean(story_points_list)
+                std = np.std(story_points_list)
+                cv_value = (std / mean * 100) if mean > 0 else 0
+            
+            # 计算需求颗粒度
+            story_granularity = (stats["userStoryPoints"] / stats["userStoryCount"]) if stats["userStoryCount"] > 0 else 0
+            
             records.append({
                 "programName": stats["programName"],
                 "teamName": team,
@@ -153,7 +167,9 @@ class SprintPlanning:
                 "userStoryRatio": round(user_story_ratio, 2),
                 "enablerPoints": round(stats["enablerPoints"], 2),
                 "enablerRatio": round(enabler_ratio, 2),
-                "storyThroughput": round(story_throughput, 2)
+                "storyThroughput": round(story_throughput, 2),
+                "cvValue": round(cv_value, 2),  # 新增：CV值
+                "storyGranularity": round(story_granularity, 2)  # 新增：需求颗粒度
             })
 
         # 创建DataFrame
@@ -163,7 +179,7 @@ class SprintPlanning:
         float_columns = [
             'storypointPlanned', 'storypointCompleted', 'testPoints', 
             'userStoryPoints', 'userStoryRatio', 'enablerPoints', 
-            'enablerRatio', 'storyThroughput'
+            'enablerRatio', 'storyThroughput', 'cvValue', 'storyGranularity'
         ]
         for col in float_columns:
             df[col] = df[col].round(2)

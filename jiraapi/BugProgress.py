@@ -89,12 +89,12 @@ class BugProgress:
             # 判断故障状态
             is_resolved = fields.get('resolution') is not None
             
-            if environment == "PRE":
+            if environment == "PRE预生产环境":
                 if is_resolved:
                     team_stats[team_name]["preFixed"] += 1
                 else:
                     team_stats[team_name]["prePending"] += 1
-            elif environment == "UAT":
+            elif environment == "UAT测试环境":
                 if is_resolved:
                     team_stats[team_name]["uatFixed"] += 1
                 else:
