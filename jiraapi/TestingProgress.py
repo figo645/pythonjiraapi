@@ -3,15 +3,18 @@ import urllib.parse
 import pandas as pd
 import os
 from datetime import datetime
-from .BaseJira import BaseJira
+from jiraapi.BaseJira import BaseJira
+from jiraapi.config import API_TOKEN, JIRA_EMAIL
 
 class TestingProgress(BaseJira):
     def __init__(self):
         super().__init__()
-        self.JIRA_URL = "https://jira.digitalvolvo.com"
+        self.API_TOKEN = API_TOKEN
+        self.JIRA_EMAIL = JIRA_EMAIL
         self.headers = {
             "Accept": "application/json",
             "Content-Type": "application/json",
+            "Authorization": f"Bearer {self.API_TOKEN}"
         }
         # 修改为获取测试计划的JQL
         self.JQL_QUERY = 'issuetype = "测试计划" AND Sprint in openSprints()'
@@ -25,7 +28,7 @@ class TestingProgress(BaseJira):
         try:
             # 对JQL查询进行URL编码
             encoded_jql = urllib.parse.quote(self.JQL_QUERY)
-            url = f"{self.JIRA_URL}/rest/api/2/search?jql={encoded_jql}"
+            url = f"https://jira.digitalvolvo.com/rest/api/2/search?jql={encoded_jql}"
             
             response = requests.get(url, headers=self.headers)
             response.raise_for_status()

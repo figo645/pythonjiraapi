@@ -5,22 +5,25 @@ import urllib.parse
 import pandas as pd
 from datetime import datetime
 import os
-from .BaseJira import BaseJira
+from jiraapi.BaseJira import BaseJira
+from jiraapi.config import API_TOKEN, JIRA_EMAIL
 
 class IterationCompletion(BaseJira):
     def __init__(self):
         super().__init__()
+        self.API_TOKEN = API_TOKEN
+        self.JIRA_EMAIL = JIRA_EMAIL
+        self.headers = {
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {self.API_TOKEN}"
+        }
         # Jira API 相关信息
         self.JIRA_URL = "https://jira.digitalvolvo.com"
         
         # 根据需求设置的JQL查询
         self.JQL_QUERY = "issuetype in (BA工作任务,任务, 技术需求Enabler, 故事, 测试QA工作任务, 运维任务) AND Sprint in openSprints()"
         #self.JQL_QUERY = "issuetype = 故事 AND Sprint = 1190 AND 交付团队 in cascadeOption(13004, 13100) and issuekey = \"CVTC-173020\""
-        
-        self.headers = {
-            "Accept": "application/json",
-            "Content-Type": "application/json",
-        }
         
         # 设置基础路径
         self.BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

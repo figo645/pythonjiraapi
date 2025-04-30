@@ -3,21 +3,24 @@ import urllib.parse
 import pandas as pd
 import os
 from datetime import datetime
-from .BaseJira import BaseJira
+from jiraapi.BaseJira import BaseJira
+from jiraapi.config import API_TOKEN, JIRA_EMAIL
 
 class ChangeTracking(BaseJira):
     def __init__(self):
         super().__init__()
+        self.API_TOKEN = API_TOKEN
+        self.JIRA_EMAIL = JIRA_EMAIL
+        self.headers = {
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {self.API_TOKEN}"
+        }
         # Jira API 相关信息
         self.JIRA_URL = "https://jira.digitalvolvo.com"
         
         # 根据需求设置的JQL查询 - 查询带有"变更"标签的问题
         self.JQL_QUERY = "labels in (变更) AND Sprint in openSprints()"
-        
-        self.headers = {
-            "Accept": "application/json",
-            "Content-Type": "application/json",
-        }
         
         # 设置基础路径
         self.BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

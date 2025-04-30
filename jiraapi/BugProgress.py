@@ -3,21 +3,22 @@ import urllib.parse
 import pandas as pd
 import os
 from datetime import datetime
-from .BaseJira import BaseJira
+from jiraapi.BaseJira import BaseJira
+from jiraapi.config import API_TOKEN, JIRA_EMAIL
 
 class BugProgress(BaseJira):
     def __init__(self):
         super().__init__()
-        # Jira API 相关信息
-        self.JIRA_URL = "https://jira.digitalvolvo.com"
-        
-        # 根据需求设置的JQL查询 - 只查询故障类型的问题
-        self.JQL_QUERY = "issuetype = 故障 AND Sprint in openSprints()"
-        
+        self.API_TOKEN = API_TOKEN
+        self.JIRA_EMAIL = JIRA_EMAIL
         self.headers = {
             "Accept": "application/json",
             "Content-Type": "application/json",
+            "Authorization": f"Bearer {self.API_TOKEN}"
         }
+        
+        # 根据需求设置的JQL查询 - 只查询故障类型的问题
+        self.JQL_QUERY = "issuetype = 故障 AND Sprint in openSprints()"
         
         # 设置基础路径
         self.BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

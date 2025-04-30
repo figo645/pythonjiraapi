@@ -6,8 +6,8 @@ import pandas as pd
 from datetime import datetime
 import os
 import numpy as np
-from .BaseJira import BaseJira
-from .config import API_TOKEN, JIRA_EMAIL
+from jiraapi.BaseJira import BaseJira
+from jiraapi.config import API_TOKEN, JIRA_EMAIL
 
 
 class SprintPlanning(BaseJira):

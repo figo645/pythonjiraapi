@@ -3,8 +3,8 @@ import pandas as pd
 import os
 from datetime import datetime
 import urllib.parse
-from .BaseJira import BaseJira
-from .config import API_TOKEN, JIRA_EMAIL
+from jiraapi.BaseJira import BaseJira
+from jiraapi.config import API_TOKEN, JIRA_EMAIL
 
 class TestCasesAnalyzer(BaseJira):
     def __init__(self):
