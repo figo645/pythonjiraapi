@@ -15,6 +15,7 @@ class SprintPlanning(BaseJira):
         super().__init__()
         self.API_TOKEN = API_TOKEN
         self.JIRA_EMAIL = JIRA_EMAIL
+        self.JIRA_URL = "https://jira.digitalvolvo.com"
         self.headers = {
             "Accept": "application/json",
             "Content-Type": "application/json",
