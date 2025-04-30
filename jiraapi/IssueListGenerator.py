@@ -3,12 +3,14 @@ import urllib.parse
 import pandas as pd
 import os
 from datetime import datetime
+from .BaseJira import BaseJira
+from .config import API_TOKEN, JIRA_EMAIL
 
-class IssueListGenerator:
+class IssueListGenerator(BaseJira):
     def __init__(self):
-        # Jira API configuration
-        self.JIRA_URL = "https://jira.digitalvolvo.com"
-        self.API_TOKEN = "MDQ3NDAxMzQ2ODY0OiksiKm1bWeZ1sAfWgqRfQ2WrgPV"
+        super().__init__()
+        self.API_TOKEN = API_TOKEN
+        self.JIRA_EMAIL = JIRA_EMAIL
         self.headers = {
             "Accept": "application/json",
             "Content-Type": "application/json",

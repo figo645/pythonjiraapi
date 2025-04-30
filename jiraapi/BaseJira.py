@@ -1,21 +1,16 @@
 import os
 import json
+import requests
+from .config import API_TOKEN, JIRA_EMAIL
 
 class BaseJira:
     def __init__(self):
-        self.JIRA_URL = "https://jira.digitalvolvo.com"
+        self.JIRA_URL = "https://jira.volvocars.com"
+        self.API_TOKEN = API_TOKEN
+        self.JIRA_EMAIL = JIRA_EMAIL
         
-        # 从配置文件读取API token
-        config_path = os.path.join(os.path.dirname(__file__), 'config.json')
-        if not os.path.exists(config_path):
-            raise FileNotFoundError(f"请创建配置文件: {config_path}\n格式参考 config.template.json")
-            
-        with open(config_path, 'r') as f:
-            config = json.load(f)
-            self.API_TOKEN = config.get('api_token')
-            
         if not self.API_TOKEN:
-            raise ValueError("配置文件中缺少 api_token")
+            raise ValueError("配置文件中缺少 API_TOKEN")
             
         self.headers = {
             "Accept": "application/json",
