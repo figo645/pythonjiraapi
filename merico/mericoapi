@@ -1,0 +1,42 @@
+安全规范
+调用 API 必须遵循以下规则：
+
+提交方式: 采用 POST 方法提交
+数据格式: 提交和返回数据都为 JSON 格式
+签名要求: 所有请求均需要校验签名
+签名算法: MD5,SHA256
+签名算法
+签名生成的通用步骤如下：
+设所有发送或者接收到的数据为集合 M，将集合 M 内的参数按照参数名 ASCII 码从小到大排序（字典序），使用 URL 键值对的格式 （即 key1=value1&key2=value2…）拼接成字符串 stringA。
+特别注意以下重要规则：
+◆ 参数名 ASCII 码从小到大排序（字典序）；
+◆ 参数中 appid 和 nonce_str 随机码为必输
+◆ 参数中如有数组或对象属性，用 JSON.stringify()转换字符后参与拼接
+◆ JSON 化的数组和对象需要删除额外的换行和空格，如不能是 {"a": "test", "b": "test"}，需要是 {"a":"test","b":"test"}
+在 stringA 最后拼接上 key=appsecret 得到 stringSignTemp 字符串，并对 stringSignTemp 进行 MD5 运算，再将得到的 字符串所有字符转换为大写，得到 sign 值 signValue。
+举例：
+假设传送的参数如下：
+
+appid： wxd930ea5d5a258f4f
+mch_id： 10000100
+device_info： 1000
+body： { a: "test" }
+nonce_str： ibuaiVcKdpRxkhJA
+第一步：对参数按照 key=value 的格式，并按照参数名 ASCII 字典序排序如下：
+
+stringA="appid=wxd930ea5d5a258f4f&body={"a":"test"}&device_info=1000&mch_id=10000100&nonce_str=ibuaiVcKdpRxkhJA";
+
+第二步：拼接 API 密钥：
+
+stringSignTemp=stringA+"&key=192006250b4c09247ec02edce69f6a2d"
+sign=MD5(stringSignTemp).toUpperCase()="9A0A8659F005D6984697E2CA0A9CF3B7" //注：MD5签名方式
+HASH算法的选择可以通过OPENAPI_SIGN_HASH环境变量来设置，默认为MD5，可选值为MD5, SHA256。
+
+最终得到最终发送的数据：
+
+appid： wxd930ea5d5a258f4f
+mch_id： 10000100
+device_info： 1000
+body： { a: "test" }
+nonce_str： ibuaiVcKdpRxkhJA
+sign: 9A0A8659F005D6984697E2CA0A9CF3B7

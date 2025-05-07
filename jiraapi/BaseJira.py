@@ -5,7 +5,7 @@ from .config import API_TOKEN, JIRA_EMAIL
 
 class BaseJira:
     def __init__(self):
-        self.JIRA_URL = "https://jira.volvocars.com"
+        self.JIRA_URL = "https://jira.digitalvolvo.com"
         self.API_TOKEN = API_TOKEN
         self.JIRA_EMAIL = JIRA_EMAIL
         

@@ -22,7 +22,7 @@ class IssueListGenerator(BaseJira):
         self.OUTPUT_DIR = os.path.join(self.BASE_DIR, "data")
         
         # JQL query
-        self.JQL_QUERY = 'issuetype in (BA工作任务, 任务, 技术需求Enabler, 故事, 测试QA工作任务, 运维任务) AND created >= 2024-12-01 AND created <= 2025-04-01'
+        self.JQL_QUERY = 'issuetype in (BA工作任务, 任务, 技术需求Enabler, 故事, 测试QA工作任务, 运维任务) AND created >= 2024-12-01'
 
     def get_issues(self):
         """Get all issues based on JQL query"""

@@ -1,6 +1,6 @@
 {
-    "sprint_start": 71,
-    "sprint_end": 77,
+    "sprint_start": 78,
+    "sprint_end": 79,
     "projects": {
         "China Volvo BI": true,
         "China Volvo DMF/CMS": true,
@@ -24,7 +24,9 @@
         "Digital Cloud Platform KPI": false,
         "Newbie台湾": false,
         "China Volvo UIUX": false,
-        "China App IAM": false
+        "China App IAM": false,
+        "DEMO": true,
+        "Auto Architecture Management": true
     },
     "teams": {
         "VCDC BI 售后": true,
@@ -84,6 +86,46 @@
         "移动商城": true,
         "数据治理": true,
         "产品管理": true,
-        "IAM": true
+        "IAM": true,
+        "C端AI": true,
+        "VCDC BI 网发": true
+    },
+    "team_department_mapping": {
+        "VCDC BI 售后": "价值链-售后",
+        "VCDC BI 新业务": "价值链-NBD",
+        "VCDC BI 销售": "销售",
+        "CMS DMF": "市场",
+        "CDPMA": "CXM-数据",
+        "湖仓": "CXM-数据",
+        "亚太车控团队": "亚太",
+        "沃尔沃亚太C端平台鸿蒙": "亚太",
+        "移动充电售后": "价值链-售后",
+        "移动基础": "CXM-CED",
+        "移动基础&商城": "CXM-CRM",
+        "移动活动": "CXM-CRM",
+        "移动活动&用户运营团队": "CXM-CRM",
+        "移动用户运营": "CXM-CRM",
+        "移动销售购车": "销售",
+        "NBMS": "价值链-NBD",
+        "4in1": "CXM-CRM",
+        "B端基础": "CXM-CED",
+        "LiteCRM": "CXM-CRM",
+        "NewbieLTO&OTD": "销售",
+        "OTD(用友)": "销售",
+        "OTD(荣联)": "销售",
+        "售后（DTCC）": "价值链-售后",
+        "销售LTO": "销售",
+        "C端基础": "CXM-CED",
+        "中台充电&售后": "价值链-售后",
+        "中台基础&商城": "CXM-CRM",
+        "充电中台": "价值链-售后",
+        "售后中台": "价值链-售后",
+        "商城中台": "CXM-CRM",
+        "用户运营": "CXM-CRM",
+        "销售中台": "销售",
+        "VOC": "价值链-NBD",
+        "企业微信": "CXM-CRM",
+        "AI Drives": "CXM-CED",
+        "亚太云平台 DevOps": "亚太"
     }
 }
