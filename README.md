@@ -1,173 +1,181 @@
-# JIRA API 数据分析工具
+# JIRA 数据同步调度器
 
-这是一个用于分析 JIRA 数据的 Python 工具集，主要用于跟踪和分析测试用例、故障、变更、迭代完成情况等数据。
+这是一个用于定时执行 JIRA 数据同步任务的 Docker 应用。它会定期执行数据抽取和导入任务，并将结果保存到数据库中。
 
-## 设计理念
+## 功能特点
 
-本项目旨在提供一个统一的框架来访问和分析 JIRA 数据，主要设计理念包括：
+- 支持定时执行数据抽取任务：
+  - BugProgress
+  - ChangeTracking
+  - IterationCompletion
+  - SprintPlanning
+  - TestCasesAnalyzer
+- 支持定时执行数据导入任务：
+  - ClearData
+  - DatabaseManager
+- 可配置的执行间隔
+- 完整的日志记录
+- Docker 容器化部署
+- 支持立即执行功能
 
-1. **模块化设计**：每个分析功能都被封装在独立的类中，便于维护和扩展
-2. **代码复用**：通过 `BaseJira` 基类实现共享功能，减少重复代码
-3. **数据安全**：敏感信息（如 API token）通过配置文件管理，避免硬编码
-4. **可扩展性**：易于添加新的分析功能和数据源
-5. **用户友好**：提供清晰的输出格式和错误处理
+## 系统要求
 
-## 程序设计
+- Docker
+- Ubuntu 系统（推荐）
+- 至少 1GB 可用内存
+- 至少 10GB 可用磁盘空间
 
-### 核心组件
+## 本地安装步骤
 
-1. **BaseJira 类**
-   - 提供基础的 JIRA API 访问功能
-   - 管理 API token 和请求头
-   - 处理通用配置和错误处理
-
-2. **分析模块**
-   - `TestCasesAnalyzer`: 测试用例分析
-   - `BugProgress`: 故障跟踪分析
-   - `ChangeTracking`: 变更跟踪分析
-   - `IterationCompletion`: 迭代完成情况分析
-   - `SprintPlanning`: 迭代规划分析
-   - `TestingProgress`: 测试进度分析
-
-3. **配置管理**
-   - `config.json`: 存储 API token 等敏感信息
-   - `config.template.json`: 配置文件模板
-
-### 数据流
-
-1. 从 JIRA API 获取原始数据
-2. 处理和转换数据
-3. 生成分析结果
-4. 导出为 CSV 文件
-
-## 流程图
-
-```mermaid
-graph TD
-    A[开始] --> B[初始化配置]
-    B --> C[获取JIRA数据]
-    C --> D{数据获取成功?}
-    D -->|是| E[处理数据]
-    D -->|否| F[错误处理]
-    E --> G[生成分析结果]
-    G --> H[导出CSV]
-    H --> I[结束]
-    F --> I
+1. 克隆代码仓库：
+```bash
+git clone <repository-url>
+cd <repository-directory>
 ```
 
-## 安全性考虑
+2. 构建 Docker 镜像：
+```bash
+docker build -t jira-sync-scheduler .
+```
 
-1. **敏感信息保护**
-   - API token 存储在独立的配置文件中
-   - 配置文件被添加到 `.gitignore`，防止意外提交
-   - 使用配置文件模板指导用户设置
+3. 运行容器：
+```bash
+docker run -d \
+  --name jira-sync \
+  -v $(pwd)/logs:/app/logs \
+  jira-sync-scheduler
+```
 
-2. **访问控制**
-   - 所有 API 请求都需要有效的 token
-   - 请求头包含必要的认证信息
+## 云端部署步骤
 
-3. **错误处理**
-   - 完善的异常处理机制
-   - 详细的错误日志记录
-   - 用户友好的错误提示
+1. 准备服务器：
+```bash
+# 安装 Docker（如果尚未安装）
+sudo apt-get update
+sudo apt-get install docker.io
+sudo systemctl start docker
+sudo systemctl enable docker
+```
 
-4. **数据安全**
-   - 输出数据经过脱敏处理
-   - 敏感信息不直接显示在日志中
+2. 上传代码：
+```bash
+# 使用 scp 上传代码（在本地执行）
+scp -r /path/to/local/code user@your-server:/path/to/deploy
+```
 
-## 使用说明
+3. 部署应用：
+```bash
+# 在服务器上执行
+cd /path/to/deploy
+chmod +x deploy.sh
+./deploy.sh
+```
 
-1. 复制 `config.template.json` 为 `config.json`
-2. 在 `config.json` 中填入你的 API token
-3. 运行相应的分析模块
+4. 验证部署：
+```bash
+# 检查容器状态
+docker ps | grep jira-sync
 
-## 依赖项
+# 查看日志
+docker logs jira-sync
+```
 
-- Python 3.x
-- requests
-- pandas
-- datetime
-- os
-- json
+## 配置说明
 
-## 示例代码
+### 配置文件
+
+所有配置都在 `jiraapi/config.py` 文件中：
 
 ```python
-from jiraapi.TestCasesAnalyzer import TestCasesAnalyzer
-
-# 创建分析器实例
-analyzer = TestCasesAnalyzer()
-
-# 运行分析
-analyzer.run_analysis()
+SCHEDULER_CONFIG = {
+    'EXECUTION_INTERVAL': 1440,  # 执行间隔（分钟）
+    'EXECUTION_TIME': '08:00',   # 执行时间
+    'LOG_LEVEL': 'INFO',         # 日志级别
+    'TASKS': {                   # 任务配置
+        'DATA_EXTRACTION': {
+            'BugProgress': True,
+            'ChangeTracking': True,
+            ...
+        }
+    }
+}
 ```
 
-## 注意事项
+### 日志
 
-1. 确保配置文件中的 API token 正确
-2. 检查网络连接是否正常
-3. 确保有足够的权限访问 JIRA API
-4. 定期更新 API token 以提高安全性
+- 日志文件位置：`/app/logs/scheduler.log`
+- 日志包含：
+  - 任务执行时间
+  - 执行状态
+  - 错误信息（如果有）
 
-## 数据字段说明
+## 使用示例
 
-### 测试用例分析 (TestCasesAnalyzer)
-- **test_plan_key**: 测试计划编号
-- **total_cases**: 测试用例总数
-- **passed_cases**: 通过的测试用例数
-- **failed_cases**: 失败的测试用例数
-- **blocked_cases**: 阻塞的测试用例数
-- **not_run_cases**: 未执行的测试用例数
-- **pass_rate**: 通过率（百分比）
-- **case_details**: 测试用例详细信息
-  - **id**: 测试用例ID
-  - **name**: 测试用例名称
-  - **description**: 测试用例描述
-  - **status**: 执行状态
-  - **priority**: 优先级
-  - **component**: 所属组件
+1. 启动定时任务：
+```bash
+docker run -d --name jira-sync jira-sync-scheduler
+```
 
-### 故障跟踪分析 (BugProgress)
-- **programName**: 项目名称
-- **teamName**: 团队名称
-- **totalBugs**: 总故障数
-- **preFixed**: PRE环境已修复数
-- **uatFixed**: UAT环境已修复数
-- **prePending**: PRE环境待修复数
-- **uatPending**: UAT环境待修复数
-- **preFixedRatio**: PRE环境修复率
-- **uatFixedRatio**: UAT环境修复率
+2. 立即执行一次任务：
+```bash
+docker exec jira-sync run-now
+```
 
-### 变更跟踪分析 (ChangeTracking)
-- **teamName**: 团队名称
-- **changeTasks**: 变更任务数
-- **changePoints**: 变更故事点数
+3. 查看日志：
+```bash
+# 查看容器日志
+docker logs jira-sync
 
-### 迭代完成情况分析 (IterationCompletion)
-- **programName**: 项目名称
-- **teamName**: 团队名称
-- **plannedProgress**: 计划进度
-- **actualProgress**: 实际进度
-- **storypointPlanned**: 计划故事点数
-- **storypointCompleted**: 完成故事点数
+# 查看应用日志文件
+docker exec jira-sync cat /app/logs/scheduler.log
+```
 
-### 迭代规划分析 (SprintPlanning)
-- **programName**: 项目名称
-- **teamName**: 团队名称
-- **plannedProgress**: 计划进度
-- **actualProgress**: 实际进度
-- **storypointPlanned**: 计划故事点数
-- **storypointCompleted**: 完成故事点数
-- **testPoints**: 测试故事点数
-- **userStoryPoints**: 用户故事点数
-- **userStoryRatio**: 用户故事占比
-- **enablerPoints**: 技术需求点数
-- **enablerRatio**: 技术需求占比
-- **storyThroughput**: 需求吞吐量
+## 维护操作
 
-### 测试进度分析 (TestingProgress)
-- **teamName**: 团队名称
-- **totalTestCases**: 测试用例总数
-- **completedTestCases**: 完成的测试用例数
-- **failedTestCases**: 失败的测试用例数
-- **blockedTestCases**: 阻塞的测试用例数 
+1. 更新应用：
+```bash
+# 在服务器上执行
+cd /path/to/deploy
+git pull  # 如果使用git管理代码
+./deploy.sh
+```
+
+2. 重启应用：
+```bash
+docker restart jira-sync
+```
+
+3. 停止应用：
+```bash
+docker stop jira-sync
+```
+
+4. 删除应用：
+```bash
+docker rm -f jira-sync
+```
+
+## 故障排除
+
+1. 如果容器无法启动，检查日志：
+```bash
+docker logs jira-sync
+```
+
+2. 如果任务执行失败，检查应用日志：
+```bash
+docker exec jira-sync cat /app/logs/scheduler.log
+```
+
+3. 常见问题：
+   - 确保数据库连接配置正确
+   - 确保 JIRA API 凭证有效
+   - 检查网络连接是否正常
+   - 检查磁盘空间是否充足
+
+## 维护说明
+
+- 定期检查日志文件大小
+- 监控容器资源使用情况
+- 定期更新 Docker 镜像以获取安全补丁
+- 定期备份配置文件 
