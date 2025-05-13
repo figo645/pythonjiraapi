@@ -16,13 +16,15 @@ class IssueListGenerator(BaseJira):
             "Content-Type": "application/json",
             "Authorization": f"Bearer {self.API_TOKEN}"
         }
-        
+
         # Set output directory
         self.BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         self.OUTPUT_DIR = os.path.join(self.BASE_DIR, "data")
-        
+
         # JQL query
-        self.JQL_QUERY = 'issuetype in (BA工作任务, 任务, 技术需求Enabler, 故事, 测试QA工作任务, 运维任务) AND created >= 2024-12-01'
+        #self.JQL_QUERY = 'issuetype in (BA工作任务, 任务, 技术需求Enabler, 故事, 测试QA工作任务, 运维任务) AND created >= 2024-12-01'
+        #self.JQL_QUERY = 'project in (CVB,CVDG) and issuetype in (BA工作任务, 任务, 技术需求Enabler, 故事, 测试QA工作任务, 运维任务) AND created >= 2025-2-01'
+        self.JQL_QUERY = 'project in (CVDC, CVMAS, CVN, CVTB, CVTC, VCDW, 思享驾融资租赁业务Leasing,"China App IAM") AND issuetype in (BA工作任务, 任务, 技术需求Enabler, 故事, 测试QA工作任务, 故障) AND createdDate  >= 2024-12-01'
 
     def get_issues(self):
         """Get all issues based on JQL query"""
@@ -33,29 +35,38 @@ class IssueListGenerator(BaseJira):
 
         while True:
             url = f"{self.JIRA_URL}/rest/api/2/search?jql={jql_encoded}&startAt={start_at}&maxResults={max_results}"
-            
+
             try:
                 response = requests.get(url, headers=self.headers)
                 response.raise_for_status()
-                
+
                 data = response.json()
                 issues = data.get("issues", [])
-                
+
                 if not issues:
                     break
-                    
+
                 all_issues.extend(issues)
-                
+
                 if len(issues) < max_results:
                     break
-                    
+
                 start_at += max_results
-                
+
             except requests.exceptions.RequestException as e:
                 print(f"Error: Failed to get JIRA data: {str(e)}")
                 break
 
         return all_issues
+
+    def _get_custom_field_value(self, fields, field_id):
+        """Safely extract value from custom field"""
+        field = fields.get(field_id)
+        if not field:
+            return ''
+        if isinstance(field, dict):
+            return field.get('value', '')
+        return str(field)
 
     def process_issues(self, issues):
         """Process issues and extract required fields"""
@@ -63,7 +74,7 @@ class IssueListGenerator(BaseJira):
         
         for issue in issues:
             fields = issue['fields']
-            
+
             # Extract required fields
             issue_data = {
                 'Issue Key': issue['key'],
@@ -75,7 +86,9 @@ class IssueListGenerator(BaseJira):
                 'Story Points': fields.get('customfield_10106', 0),
                 'Sprint': self._get_sprint_name(fields.get('customfield_10104', [])),
                 'Delivery Team': self._get_delivery_team(fields.get('customfield_11101', {})),
-                'Status': fields.get('status', {}).get('name', '')
+                'Status': fields.get('status', {}).get('name', ''),
+                '埋点需求': self._get_custom_field_value(fields, 'customfield_10604'),
+                '是否VCC': self._get_custom_field_value(fields, 'customfield_11114')
             }
             
             processed_issues.append(issue_data)
@@ -86,7 +99,7 @@ class IssueListGenerator(BaseJira):
         """Extract sprint name from sprint field"""
         if not sprint_field:
             return ''
-        
+
         # Get the most recent sprint
         sprint = sprint_field[-1] if isinstance(sprint_field, list) else sprint_field
         if isinstance(sprint, str):
@@ -104,7 +117,7 @@ class IssueListGenerator(BaseJira):
         """Extract delivery team name from team field"""
         if not team_field:
             return 'Unassigned Team'
-        
+
         return team_field.get('child', {}).get('value', 'Unassigned Team')
 
     def export_to_csv(self, issues):
@@ -112,24 +125,24 @@ class IssueListGenerator(BaseJira):
         try:
             # Ensure output directory exists
             os.makedirs(self.OUTPUT_DIR, exist_ok=True)
-            
+
             # Create DataFrame
             df = pd.DataFrame(issues)
-            
+
             # Format dates
             df['Create Date'] = pd.to_datetime(df['Create Date']).dt.strftime('%Y-%m-%d')
-            
+
             # Export to CSV
             output_file = os.path.join(self.OUTPUT_DIR, 'issueListReport.csv')
             df.to_csv(output_file, index=False, encoding='utf-8-sig')
             print(f"\n✅ Successfully exported issue list to: {output_file}")
-            
+
             # Print summary
             print("\nIssue List Summary:")
             print(f"Total issues: {len(issues)}")
             print("\nIssues by type:")
             print(df['Issue Type'].value_counts())
-            
+
         except Exception as e:
             print(f"❌ Error exporting issue list: {str(e)}")
 
@@ -137,18 +150,18 @@ class IssueListGenerator(BaseJira):
         """Run the issue list generation process"""
         print("Starting issue list generation...")
         print(f"JQL Query: {self.JQL_QUERY}")
-        
+
         # Get issues
         issues = self.get_issues()
         if not issues:
             print("No issues found")
             return
-        
+
         print(f"Found {len(issues)} issues")
-        
+
         # Process issues
         processed_issues = self.process_issues(issues)
-        
+
         # Export to CSV
         self.export_to_csv(processed_issues)
 

@@ -4,6 +4,7 @@ from datetime import datetime
 import psycopg2
 from psycopg2 import sql
 from psycopg2.extras import execute_values
+import csv
 
 class DatabaseManager:
     def __init__(self):
@@ -183,6 +184,46 @@ class DatabaseManager:
                     print(f"Error processing {csv_file}: {str(e)}")
             else:
                 print(f"Warning: {csv_file} not found in data directory")
+
+    def import_data_from_csv(self):
+        """从CSV文件导入数据到数据库"""
+        try:
+            # 获取当前日期
+            current_date = datetime.now().strftime('%Y-%m-%d')
+            
+            # 删除当天的所有表数据
+            for table_name in self.tables:
+                self.cursor.execute(f"DELETE FROM {table_name} WHERE data_date = %s", (current_date,))
+                self.conn.commit()
+                print(f"✅ Successfully cleared table {table_name} for date {current_date}")
+            
+            # 导入数据
+            for table_name, csv_file in self.csv_files.items():
+                if os.path.exists(csv_file):
+                    with open(csv_file, 'r', encoding='utf-8') as f:
+                        reader = csv.DictReader(f)
+                        for row in reader:
+                            # 确保data_date字段存在
+                            if 'data_date' not in row:
+                                row['data_date'] = current_date
+                            
+                            # 构建INSERT语句
+                            columns = ', '.join([f'"{k}"' for k in row.keys()])
+                            values = ', '.join(['%s'] * len(row))
+                            query = f'INSERT INTO "{table_name}" ({columns}) VALUES ({values})'
+                            
+                            try:
+                                self.cursor.execute(query, list(row.values()))
+                                self.conn.commit()
+                            except Exception as e:
+                                print(f"Error inserting data into {table_name}: {e}")
+                                self.conn.rollback()
+                    print(f"✅ Successfully inserted data into {table_name}")
+                else:
+                    print(f"⚠️ CSV file not found: {csv_file}")
+        except Exception as e:
+            print(f"Error importing data: {e}")
+            self.conn.rollback()
 
 def main():
     """Main function to run the database operations"""

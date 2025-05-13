@@ -8,7 +8,7 @@ class BaseJira:
         self.JIRA_URL = "https://jira.digitalvolvo.com"
         self.API_TOKEN = API_TOKEN
         self.JIRA_EMAIL = JIRA_EMAIL
-        
+            
         if not self.API_TOKEN:
             raise ValueError("配置文件中缺少 API_TOKEN")
             

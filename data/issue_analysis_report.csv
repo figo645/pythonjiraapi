@@ -1,37 +1,37 @@
-﻿JIRA项目名,交付团队,部门,总计交付故事点数,百人天吞吐量,CV值,吞吐量预警,CV值预警,BA工作任务点数,任务点数,技术需求Enabler点数,故事点数,测试QA工作任务点数,运维任务点数
-China Volvo BI,VCDC BI 售后,价值链-售后,85.5,5.13,68.47,预警,需改进,2.5,1.0,1.0,78.0,3.0,0.0
-China Volvo BI,VCDC BI 新业务,价值链-NBD,15.0,8.33,0.0,预警,需改进,0.0,0.0,0.0,12.0,3.0,0.0
-China Volvo BI,VCDC BI 网发,未分类,73.0,8.82,8.32,预警,需改进,39.0,0.0,0.0,34.0,0.0,0.0
-China Volvo BI,VCDC BI 销售,销售,86.0,9.26,28.33,预警,需改进,0.0,0.0,29.0,54.0,3.0,0.0
-China Volvo DMF/CMS,CMS DMF,市场,44.25,57.14,71.43,良好,需改进,9.0,3.0,16.75,3.5,0.0,12.0
-China Volvo Data Governance Services,CDPMA,CXM-数据,89.0,21.95,126.36,预警,需改进,39.0,7.0,0.0,41.0,2.0,0.0
-China Volvo Data Governance Services,数据治理,未分类,1.0,0.0,0.0,预警,需改进,0.0,0.0,0.0,0.0,1.0,0.0
-China Volvo Data Governance Services,湖仓,CXM-数据,305.0,10.83,55.1,预警,需改进,118.0,67.0,0.0,120.0,0.0,0.0
-China Volvo Mobile Apps,亚太车控团队,亚太,72.68,0.0,0.0,预警,需改进,0.0,0.0,0.0,0.0,72.68,0.0
-China Volvo Mobile Apps,用户运营,CXM-CRM,2.0,50.0,0.0,良好,需改进,0.0,0.0,0.0,2.0,0.0,0.0
-China Volvo Mobile Apps,移动充电售后,价值链-售后,142.10000000000002,48.23,67.53,良好,需改进,16.0,0.0,28.4,62.2,35.5,0.0
-China Volvo Mobile Apps,移动基础,CXM-CED,4.0,0.0,0.0,预警,需改进,0.0,0.0,0.0,0.0,4.0,0.0
-China Volvo Mobile Apps,移动基础&商城,CXM-CRM,170.7,35.16,64.17,预警,需改进,18.0,0.0,18.5,96.7,37.5,0.0
-China Volvo Mobile Apps,移动活动,CXM-CRM,182.5,35.0,70.68,预警,需改进,6.0,0.0,0.0,160.0,16.5,0.0
-China Volvo Mobile Apps,移动活动&用户运营团队,CXM-CRM,91.5,38.85,44.14,预警,良好,22.0,0.0,0.0,69.5,0.0,0.0
-China Volvo Mobile Apps,移动用户运营,CXM-CRM,62.0,0.0,0.0,预警,需改进,9.0,0.0,6.0,0.0,47.0,0.0
-China Volvo Mobile Apps,移动销售购车,销售,122.05,44.06,100.7,预警,需改进,18.0,0.0,26.0,63.55,14.5,0.0
-China Volvo NBD 新业务,NBMS,价值链-NBD,98.5,36.36,50.96,预警,良好,17.0,7.5,18.0,38.5,5.5,12.0
-China Volvo To B Services,4in1,CXM-CRM,81.5,37.21,33.69,预警,需改进,9.0,7.5,10.0,43.0,0.0,12.0
-China Volvo To B Services,B端基础,CXM-CED,4.0,25.0,0.0,预警,需改进,0.0,0.0,0.0,4.0,0.0,0.0
-China Volvo To B Services,LiteCRM,CXM-CRM,64.0,36.62,30.99,预警,需改进,7.5,7.0,0.0,35.5,2.0,12.0
-China Volvo To B Services,NewbieLTO&OTD,销售,176.0,42.59,75.21,预警,需改进,34.0,19.7,5.5,108.0,8.0,0.8
-China Volvo To B Services,售后（DTCC）,价值链-售后,339.5,21.25,32.4,预警,需改进,60.5,1.0,25.0,240.0,13.0,0.0
-China Volvo To B Services,经销商呼叫中心 DCC,未分类,152.0,4.62,84.43,预警,需改进,2.0,11.0,9.0,130.0,0.0,0.0
-China Volvo To C Services,B端基础,CXM-CED,216.0,25.44,47.93,预警,良好,48.0,0.0,26.2,125.8,16.0,0.0
-China Volvo To C Services,中台充电&售后,价值链-售后,160.5,50.24,32.49,良好,需改进,38.0,0.0,6.0,103.5,13.0,0.0
-China Volvo To C Services,中台基础&商城,CXM-CRM,171.0,38.92,42.32,预警,良好,34.0,2.5,27.0,92.5,15.0,0.0
-China Volvo To C Services,充电中台,价值链-售后,3.5,57.14,42.86,良好,良好,0.0,0.0,0.0,3.5,0.0,0.0
-China Volvo To C Services,用户运营,CXM-CRM,98.1,42.76,38.93,预警,良好,19.0,0.0,3.1,72.5,3.5,0.0
-China Volvo To C Services,移动充电售后,价值链-售后,6.5,0.0,0.0,预警,需改进,0.0,0.0,0.0,0.0,6.5,0.0
-China Volvo To C Services,移动基础&商城,CXM-CRM,0.0,0.0,0.0,预警,需改进,0.0,0.0,0.0,0.0,0.0,0.0
-China Volvo To C Services,移动活动&用户运营团队,CXM-CRM,2.0,50.0,0.0,良好,需改进,0.0,0.0,0.0,2.0,0.0,0.0
-China Volvo To C Services,销售中台,销售,108.0,30.26,47.38,预警,良好,19.0,0.0,2.0,76.0,11.0,0.0
-China Volvo VOC Platform,VOC,价值链-NBD,19.0,20.0,0.0,预警,需改进,3.0,3.0,2.0,5.0,4.0,2.0
-沃尔沃企微 DES-Wechat,企业微信,CXM-CRM,145.5,35.4,35.08,预警,良好,19.0,22.5,47.0,56.5,0.5,0.0
-生成式AI推动企业变革项目 AI Drives,AI Drives,CXM-CED,74.5,47.27,41.62,良好,良好,38.5,0.0,8.5,27.5,0.0,0.0
+JIRA项目名,交付团队,部门,总计交付故事点数,百人天吞吐量,CV值,吞吐量预警,CV值预警,BA工作任务点数,任务点数,技术需求Enabler点数,故事点数,测试QA工作任务点数,运维任务点数
+China Volvo BI,VCDC BI 售后,价值链-售后,85.5,5.13,68.47,预警,需改进,2.5,1,1,78,3,0
+China Volvo BI,VCDC BI 新业务,价值链-NBD,15,8.33,0,预警,需改进,0,0,0,12,3,0
+China Volvo BI,VCDC BI 网发,未分类,73,8.82,8.32,预警,需改进,39,0,0,34,0,0
+China Volvo BI,VCDC BI 销售,销售,86,9.26,28.33,预警,需改进,0,0,29,54,3,0
+China Volvo DMF/CMS,CMS DMF,市场,44.25,57.14,71.43,良好,需改进,9,3,16.75,3.5,0,12
+China Volvo Data Governance Services,CDPMA,CXM-数据,89,21.95,126.36,预警,需改进,39,7,0,41,2,0
+China Volvo Data Governance Services,数据治理,未分类,1,0,0,预警,需改进,0,0,0,0,1,0
+China Volvo Data Governance Services,湖仓,CXM-数据,305,10.83,55.1,预警,需改进,118,67,0,120,0,0
+China Volvo Mobile Apps,亚太车控团队,亚太,72.68,0,0,预警,需改进,0,0,0,0,72.68,0
+China Volvo Mobile Apps,用户运营,CXM-CRM,2,50,0,良好,需改进,0,0,0,2,0,0
+China Volvo Mobile Apps,移动充电售后,价值链-售后,142.1,48.23,67.53,良好,需改进,16,0,28.4,62.2,35.5,0
+China Volvo Mobile Apps,移动基础,CXM-CED,4,0,0,预警,需改进,0,0,0,0,4,0
+China Volvo Mobile Apps,移动基础&商城,CXM-CRM,170.7,35.16,64.17,预警,需改进,18,0,18.5,96.7,37.5,0
+China Volvo Mobile Apps,移动活动,CXM-CRM,182.5,35,70.68,预警,需改进,6,0,0,160,16.5,0
+China Volvo Mobile Apps,移动活动&用户运营团队,CXM-CRM,91.5,38.85,44.14,预警,良好,22,0,0,69.5,0,0
+China Volvo Mobile Apps,移动用户运营,CXM-CRM,62,0,0,预警,需改进,9,0,6,0,47,0
+China Volvo Mobile Apps,移动销售购车,销售,122.05,44.06,100.7,预警,需改进,18,0,26,63.55,14.5,0
+China Volvo NBD 新业务,NBMS,价值链-NBD,98.5,36.36,50.96,预警,良好,17,7.5,18,38.5,5.5,12
+China Volvo To B Services,4in1,CXM-CRM,81.5,37.21,33.69,预警,需改进,9,7.5,10,43,0,12
+China Volvo To B Services,B端基础,CXM-CED,4,25,0,预警,需改进,0,0,0,4,0,0
+China Volvo To B Services,LiteCRM,CXM-CRM,64,36.62,30.99,预警,需改进,7.5,7,0,35.5,2,12
+China Volvo To B Services,NewbieLTO&OTD,销售,176,42.59,75.21,预警,需改进,34,19.7,5.5,108,8,0.8
+China Volvo To B Services,售后（DTCC）,价值链-售后,339.5,21.25,32.4,预警,需改进,60.5,1,25,240,13,0
+China Volvo To B Services,经销商呼叫中心 DCC,未分类,152,4.62,84.43,预警,需改进,2,11,9,130,0,0
+China Volvo To C Services,B端基础,CXM-CED,216,25.44,47.93,预警,良好,48,0,26.2,125.8,16,0
+China Volvo To C Services,中台充电&售后,价值链-售后,160.5,50.24,32.49,良好,需改进,38,0,6,103.5,13,0
+China Volvo To C Services,中台基础&商城,CXM-CRM,171,38.92,42.32,预警,良好,34,2.5,27,92.5,15,0
+China Volvo To C Services,充电中台,价值链-售后,3.5,57.14,42.86,良好,良好,0,0,0,3.5,0,0
+China Volvo To C Services,用户运营,CXM-CRM,98.1,42.76,38.93,预警,良好,19,0,3.1,72.5,3.5,0
+China Volvo To C Services,移动充电售后,价值链-售后,6.5,0,0,预警,需改进,0,0,0,0,6.5,0
+China Volvo To C Services,移动基础&商城,CXM-CRM,0,0,0,预警,需改进,0,0,0,0,0,0
+China Volvo To C Services,移动活动&用户运营团队,CXM-CRM,2,50,0,良好,需改进,0,0,0,2,0,0
+China Volvo To C Services,销售中台,销售,108,30.26,47.38,预警,良好,19,0,2,76,11,0
+China Volvo VOC Platform,VOC,价值链-NBD,19,20,0,预警,需改进,3,3,2,5,4,2
+沃尔沃企微 DES-Wechat,企业微信,CXM-CRM,145.5,35.4,35.08,预警,良好,19,22.5,47,56.5,0.5,0
+生成式AI推动企业变革项目 AI Drives,AI Drives,CXM-CED,74.5,47.27,41.62,良好,良好,38.5,0,8.5,27.5,0,0
